@@ -1,4 +1,4 @@
-# Matcha - api
+# Hot or Not - API
 
 ## Getting started
 
