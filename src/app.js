@@ -3,10 +3,10 @@ const requireDir = require('require-dir')
 const bodyParser = require('body-parser')
 const errorHandler = require('./middleware/errorHandler')
 const app = express()
-const cors = require('cors')
+// const cors = require('cors')
 
-app.use(cors())
 app.use(bodyParser.json())
+// app.use(cors())
 
 const routes = requireDir('./routes')
 
