@@ -1,0 +1,45 @@
+{
+  "name": "hypertube-api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "NODE_ENV=development nodemon src/index.js --exec \"node --preserve-symlinks -r dotenv/config\"",
+    "start": "NODE_ENV=production node -r dotenv/config src/index.js",
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
+    "seed": "node -r dotenv/config ./scripts/seed.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.9",
+    "node-fetch": "^2.6.0",
+    "require-dir": "^1.2.0",
+    "save": "^2.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^4.2.5",
+    "lint-staged": "^9.5.0",
+    "nodemon": "^2.0.3"
+  }
+}
