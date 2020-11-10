@@ -25,6 +25,20 @@ const getHighScores = async () => {
 }
 
 module.exports = app => {
+  app.get('/statement', async (req, res, next) => {
+    try {
+      const data = await getHighScores()
+
+      res.json({
+        data
+      })
+    } catch (e) {
+      const error = new Error('not-found')
+      error.statusCode = 404
+      return next(error)
+    }
+  })
+
   app.post('/statement', async (req, res, next) => {
     const {
       statement
@@ -51,7 +65,6 @@ module.exports = app => {
       const data = await getHighScores()
       dispatchEvent(EventTypes.UPDATE_STATEMENT, data)
     } catch (e) {
-      console.log(e)
       const error = new Error('internal-server-error')
       error.statusCode = 500
       return next(error)
