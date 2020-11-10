@@ -2,8 +2,12 @@ const socketIo = require('socket.io')
 
 let io = null
 
-const dispatchEvent = (data) => {
-  console.log(data)
+const dispatchEvent = (type, data) => {
+  io
+    .emit('event-receive', JSON.stringify({
+      type,
+      data
+    }))
 }
 
 function initSocketServer (server) {

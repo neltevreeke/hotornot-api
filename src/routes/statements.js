@@ -1,4 +1,28 @@
 const Statement = require('../models/Statement')
+const { dispatchEvent } = require('../socketServer')
+const EventTypes = require('../constants/EventTypes')
+
+const getHighScores = async () => {
+  const results = await Statement.find()
+    .sort({
+      count: -1
+    })
+    .select(
+      ['-__v', '-_id']
+    )
+    .lean()
+    .exec()
+
+  const n = results.length
+
+  if (n > 4) {
+    for (let i = 5; i < n; i++) {
+      results.pop()
+    }
+  }
+
+  return results
+}
 
 module.exports = app => {
   app.post('/statement', async (req, res, next) => {
@@ -16,17 +40,16 @@ module.exports = app => {
           label: statement.label,
           count: 1
         })
-
-        // todo: sendEvent to frontend through socket to update highscores
       } else {
         await Statement.updateOne({
           label: statement.label
         }, {
           $inc: { count: 1 }
         })
-
-        // todo: sendEvent to frontend through socket to update highscores
       }
+
+      const data = await getHighScores()
+      dispatchEvent(EventTypes.UPDATE_STATEMENT, data)
     } catch (e) {
       console.log(e)
       const error = new Error('internal-server-error')
