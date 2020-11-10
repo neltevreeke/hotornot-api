@@ -7,12 +7,6 @@ npm install
 cp .env.example .env
 ```
 
-## Seeding the database
-
-```shell
-npm run seed
-```
-
 ## Running development environment
 
 ```shell
